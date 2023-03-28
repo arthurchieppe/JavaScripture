@@ -11,7 +11,7 @@
 
 (* Loops *)
 <while_loop> ::= "prayAsLongAs" "(" <conditional> ")"  <block> ;
-<for_loop> ::= "blessFor" "(" <assignment> ";" <condional> ";" <expression> ")" <block> ;
+<for_loop> ::= "blessFor" "(" <assignment> ";" <conditional> ";" <expression> ")" <block> ;
 
 (* Conditional *)
 <conditional> ::= <expression> [ (">" | "<" | ">=" | "<=" | "==" | "!="), <expression> ]
@@ -31,7 +31,7 @@
 
 
 # Types:
-<type>  ::= ("number" | "string" | "boolean")
+<type>  ::= "number" | "string" | "boolean"
 <number> ::= <digit>, {<digit>}
 <string> ::= '"' { <any_character> } '"'
 <any_character> ::= <letter> | <digit> | <symbol>
