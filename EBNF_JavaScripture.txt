@@ -1,0 +1,41 @@
+(* Program *)
+<program> ::= { <statement> }
+<block> ::= "{" { <statement> } "}"
+<statement> ::= λ | <declaration> | <assignment> | <print> | <if_statement> | <while_loop> | <for_loop> | <function_declaration> | <function_call>
+
+(* Variable management *):
+<identifier> ::= <letter> { <letter> | <digit> | "_" }
+<declaration> ::= "baptize" <type> "as" <identifier> ;
+<assignment> ::= (<declaration> | <identifier>) "giveth" <expression> ;
+<print> ::= "proclaim" "(" <expression> ")" ;
+
+(* Loops *)
+<while_loop> ::= "prayAsLongAs" "(" <conditional> ")"  <block> ;
+<for_loop> ::= "blessFor" "(" <assignment> ";" <condional> ";" <expression> ")" <block> ;
+
+(* Conditional *)
+<conditional> ::= <expression> [ (">" | "<" | ">=" | "<=" | "==" | "!="), <expression> ]
+<if_statement> ::= "testify" "(" <conditional> ")" <block> [ "otherwise" < block> ]
+
+(* Functions *)
+<function_declaration> ::= "preach" <type> "as" <identifier> "(" [ <parameters> ] ")" <block>
+<parameters> ::= <parameter> { "," <parameter> }
+<parameter> ::= <type> "as" <identifier>
+<function_call> ::= <identifier> "(" [ <arguments> ] ")" ;
+<arguments> ::= <expression> { "," <expression> }
+
+# Expressions:
+<expression> = <term>, { ("+" | "-"), <term> } ;
+<term> = <factor>, { ("*" | "/"), <factor> } ;
+<factor> = (("+" | "-"), <factor>) | <number> | "(", <expression>, ")" | <identifier> ;
+
+
+# Types:
+<type>  ::= ("number" | "string" | "boolean")
+<number> ::= <digit>, {<digit>}
+<string> ::= '"' { <any_character> } '"'
+<any_character> ::= <letter> | <digit> | <symbol>
+<boolean> ::= "true" | "false"
+<letter> ::= ("A" | "B" | ... | "Z" | "a" | "b" | ... | "z") ;
+<digit> ::= ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
+<symbol> ::= "+" | "-" | "*" | "/" | "%" | "(" | ")" | "{" | "}" | "[" | "]" | "," | "." | ";" | ":" | "!" | "?" | "="
