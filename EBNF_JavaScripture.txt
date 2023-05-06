@@ -6,28 +6,28 @@
 (* Variable management *):
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
 <declaration> ::= "baptize" <type> "as" <identifier> ;
-<assignment> ::= (<declaration> | <identifier>) "giveth" <expression> ;
-<print> ::= "proclaim" "(" <expression> ")" ;
+<assignment> ::= (<declaration> | <identifier>) "giveth" <relExpression> ;
+<print> ::= "proclaim" "(" <relExpression> ")" ;
 
 (* Loops *)
-<while_loop> ::= "prayAsLongAs" "(" <conditional> ")"  <block> ;
-<for_loop> ::= "blessFor" "(" <assignment> ";" <conditional> ";" <expression> ")" <block> ;
+<while_loop> ::= "prayAsLongAs" "(" <relExpression> ")"  <block> ;
+<for_loop> ::= "blessFor" "(" <assignment> ";" <relExpression> ";" <relExpression> ")" <block> ;
 
-(* Conditional *)
-<conditional> ::= <expression> [ (">" | "<" | ">=" | "<=" | "==" | "!="), <expression> ]
-<if_statement> ::= "testify" "(" <conditional> ")" <block> [ "otherwise" < block> ]
+(* If *)
+<if_statement> ::= "testify" "(" <relExpression> ")" <block> [ "otherwise" < block> ]
 
 (* Functions *)
 <function_declaration> ::= "preach" <type> "as" <identifier> "(" [ <parameters> ] ")" <block>
 <parameters> ::= <parameter> { "," <parameter> }
 <parameter> ::= <type> "as" <identifier>
 <function_call> ::= <identifier> "(" [ <arguments> ] ")" ;
-<arguments> ::= <expression> { "," <expression> }
+<arguments> ::= <relExpression> { "," <relExpression> }
 
 # Expressions:
-<expression> = <term>, { ("+" | "-"), <term> } ;
-<term> = <factor>, { ("*" | "/"), <factor> } ;
-<factor> = (("+" | "-"), <factor>) | <number> | "(", <expression>, ")" | <identifier> ;
+<relExpression> = <expression>, { ("==" | ">" | "<" | ">=" | "<="), <expression> } ;
+<expression> = <term>, { ("+" | "-" | "||"), <term> } ;
+<term> = <factor>, { ("*" | "/" | "&&"), <factor> } ;
+<factor> = (("+" | "-" | "!"), <factor>) | <number> | "(", <relExpression>, ")" | <identifier> ;
 
 
 # Types:
