@@ -5,7 +5,7 @@
 
 (* Variable management *):
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
-<declaration> ::= "baptize" <type> "as" <identifier> ;
+<declaration> ::= "baptize" <identifier> ;
 <assignment> ::= (<declaration> | <identifier>) "giveth" <relExpression> ;
 <print> ::= "proclaim" "(" <relExpression> ")" ;
 
@@ -17,9 +17,9 @@
 <if_statement> ::= "testify" "(" <relExpression> ")" <block> [ "otherwise" < block> ]
 
 (* Functions *)
-<function_declaration> ::= "preach" <type> "as" <identifier> "(" [ <parameters> ] ")" <block>
+<function_declaration> ::= "preach" <identifier> "(" [ <parameters> ] ")" <block>
 <parameters> ::= <parameter> { "," <parameter> }
-<parameter> ::= <type> "as" <identifier>
+<parameter> ::= <identifier>
 <function_call> ::= <identifier> "(" [ <arguments> ] ")" ;
 <arguments> ::= <relExpression> { "," <relExpression> }
 
@@ -31,7 +31,6 @@
 
 
 # Types:
-<type>  ::= "int" | "string"
 <int> ::= <digit>, {<digit>}
 <string> ::= '"' { <any_character> } '"'
 <any_character> ::= <letter> | <digit> | <symbol>
