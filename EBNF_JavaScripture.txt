@@ -27,15 +27,14 @@
 <relExpression> = <expression>, { ("==" | ">" | "<" | ">=" | "<="), <expression> } ;
 <expression> = <term>, { ("+" | "-" | "||"), <term> } ;
 <term> = <factor>, { ("*" | "/" | "&&"), <factor> } ;
-<factor> = (("+" | "-" | "!"), <factor>) | <number> | "(", <relExpression>, ")" | <identifier> ;
+<factor> = (("+" | "-" | "!"), <factor>) | <int> | "(", <relExpression>, ")" | <identifier> ;
 
 
 # Types:
-<type>  ::= "number" | "string" | "boolean"
-<number> ::= <digit>, {<digit>}
+<type>  ::= "int" | "string"
+<int> ::= <digit>, {<digit>}
 <string> ::= '"' { <any_character> } '"'
 <any_character> ::= <letter> | <digit> | <symbol>
-<boolean> ::= "true" | "false"
 <letter> ::= ("A" | "B" | ... | "Z" | "a" | "b" | ... | "z") ;
 <digit> ::= ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
 <symbol> ::= "+" | "-" | "*" | "/" | "%" | "(" | ")" | "{" | "}" | "[" | "]" | "," | "." | ";" | ":" | "!" | "?" | "="
