@@ -13,6 +13,7 @@ class Lexer():
         self.lexer.add('CLOSE_PAREN', r'\)')
         # Semi Colon
         self.lexer.add('SEMI_COLON', r'\;')
+        self.lexer.add('ASG', r'\=')
 
         # Operators
         self.lexer.add('SUM', r'\+')
@@ -21,13 +22,13 @@ class Lexer():
         self.lexer.add('DIV', r'\/')
 
         # Relative operators
-        self.lexer.add('EQQ', r'\==')
+        self.lexer.add('EQQ', r'\=\=')
         self.lexer.add('LES', r'\<')
-        self.lexer.add('LEQ', r'\<=')
+        self.lexer.add('LEQ', r'\<\=')
         self.lexer.add('GRT', r'\>')
-        self.lexer.add('GEQ', r'\>=')
-        self.lexer.add('AND', r'\&&')
-        self.lexer.add('OR', r'\||')
+        self.lexer.add('GEQ', r'\>\=')
+        self.lexer.add('AND', r'\&\&')
+        self.lexer.add('OR', r'\|\|')
 
         # Unary operators
         self.lexer.add('NOT', r'\!')
@@ -44,6 +45,8 @@ class Lexer():
         self.lexer.add('FUNCTION_DECLARATION', r'preach')
         self.lexer.add('COMMA', r',')
         self.lexer.add('STATEMENT_END', r';')
+        self.lexer.add('RETURN', r'amen')
+        self.lexer.add('AS', r'as')
 
         # Variable types
         self.lexer.add('TYPE', r'int|string')

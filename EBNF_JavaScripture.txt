@@ -1,7 +1,7 @@
 (* Program *)
 <program> ::= { <statement> }
 <block> ::= "{" { <statement> } "}"
-<statement> ::= λ | <declaration> | <assignment> | <print> | <if_statement> | <while_loop> | <for_loop> | <function_declaration> | <function_call>
+<statement> ::= λ | <declaration> | <assignment> | <print> | <if_statement> | <while_loop> | <for_loop> | <function_declaration> | <function_call> | <return>
 
 (* Variable management *):
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
@@ -22,6 +22,7 @@
 <parameter> ::= <type> "as" <identifier>
 <function_call> ::= <identifier> "(" [ <arguments> ] ")" ;
 <arguments> ::= <relExpression> { "," <relExpression> }
+<return> ::= "amen" <expression> ";"
 
 # Expressions:
 <relExpression> = <expression>, { ("==" | ">" | "<" | ">=" | "<="), <expression> } ;
