@@ -5,10 +5,6 @@ from holy_parser import Parser
 with open("test.amen", "r") as file:
     text_input = file.read()
 
-# Remove endfile
-text_input = text_input.replace("$end", "")
-
-
 lexer = Lexer().get_lexer()
 tokens = lexer.lex(text_input)
 
