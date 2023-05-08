@@ -69,45 +69,96 @@ class Parser():
 
         @self.pg.production("assignment : IDENTIFIER ASSIGNMENT relExpression SEMI_COLON")
         def assignment(p):
-            pass
+            return p
 
         @self.pg.production("declaration : DECLARATION TYPE AS IDENTIFIER SEMI_COLON")
         @self.pg.production("declaration : DECLARATION TYPE AS IDENTIFIER ASSIGNMENT relExpression SEMI_COLON")
         def declaration(p):
-            pass
+            return p
 
         @self.pg.production("print : PRINT OPEN_PAREN relExpression CLOSE_PAREN SEMI_COLON")
         def print(p):
-            pass
+            return p
 
         @self.pg.production("while_loop : WHILE_LOOP OPEN_PAREN relExpression CLOSE_PAREN block SEMI_COLON")
         def while_loop(p):
-            pass
+            return p
 
         @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN (assignment)? SEMICOLON (relExpression)? SEMICOLON (relExpression)? CLOSE_PAREN block SEMI_COLON")
         @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN (declaration)? SEMICOLON (relExpression)? SEMICOLON (relExpression)? CLOSE_PAREN block SEMI_COLON")
         def for_loop(p):
-            pass
+            return p
 
-        @self.pg.production("if_statement : 'testify' LPAREN relExpression RPAREN block")
-        @self.pg.production("if_statement : 'testify' LPAREN relExpression RPAREN block 'otherwise' block")
+        @self.pg.production("if_statement : IF OPEN_PAREN relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("if_statement : IF OPEN_PAREN relExpression CLOSE_PAREN block ELSE block SEMI_COLON")
         def if_statement(p):
-            pass
+            return p
 
-        @self.pg.production('expression : expression SUM expression')
-        @self.pg.production('expression : expression SUB expression')
+        # Function declaration
+        @self.pg.production("function_declaration : FUNCTION_DECLARATION TYPE AS IDENTIFIER OPEN_PAREN CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("function_declaration : FUNCTION_DECLARATION TYPE AS IDENTIFIER OPEN_PAREN parameters CLOSE_PAREN block SEMI_COLON")
+        def function_declaration(p):
+            return p
+
+        # Parameters
+        @self.pg.production("parameters : parameter")
+        @self.pg.production("parameters : parameter COMMA parameters")
+        def parameters(p):
+            return p
+
+        # Parameter
+        @self.pg.production("parameter : TYPE AS IDENTIFIER")
+        def parameter(p):
+            return p
+
+        # Function call
+        @self.pg.production("function_call : IDENTIFIER OPEN_PAREN CLOSE_PAREN SEMI_COLON")
+        @self.pg.production("function_call : identifier OPEN_PAREN arguments CLOSE_PAREN SEMI_COLON")
+        def function_call(p):
+            return p
+
+        # Arguments
+        @self.pg.production("arguments : relExpression")
+        @self.pg.production("arguments : relExpression COMMA arguments")
+        def arguments(p):
+            return p
+
+        @self.pg.production("return : RETURN relExpression SEMI_COLON")
+        def return_statement(p):
+            return p
+
+        @self.pg.production("relExpression : expression")
+        @self.pg.production("relExpression : expression EQQ expression")
+        @self.pg.production("relExpression : expression LES expression")
+        @self.pg.production("relExpression : expression LEQ expression")
+        @self.pg.production("relExpression : expression GRT expression")
+        @self.pg.production("relExpression : expression GEQ expression")
+        def relExpression(p):
+            return p
+
+        @self.pg.production("expression : term")
+        @self.pg.production("expression : term SUM term")
+        @self.pg.production("expression : term SUB term")
+        @self.pg.production("expression : term OR term")
         def expression(p):
-            left = p[0]
-            right = p[2]
-            operator = p[1]
-            if operator.gettokentype() == 'SUM':
-                return Sum(left, right)
-            elif operator.gettokentype() == 'SUB':
-                return Sub(left, right)
+            return p
 
-        @self.pg.production('expression : NUMBER')
-        def number(p):
-            return Number(p[0].value)
+        @self.pg.production("term : factor")
+        @self.pg.production("term : factor MUL factor")
+        @self.pg.production("term : factor DIV factor")
+        @self.pg.production("term : factor AND factor")
+        def term(p):
+            return p
+
+        @self.pg.production("factor : OPEN_PAREN relExpression CLOSE_PAREN")
+        @self.pg.production("factor : SUM factor")
+        @self.pg.production("factor : SUB factor")
+        @self.pg.production("factor : NOT factor")
+        @self.pg.production("factor : INT")
+        @self.pg.production("factor : STRING")
+        @self.pg.production("factor : identifier")
+        def factor(p):
+            return p
 
         @self.pg.error
         def error_handle(token):
