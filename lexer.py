@@ -13,7 +13,6 @@ class Lexer():
         self.lexer.add('CLOSE_PAREN', r'\)')
         # Semi Colon
         self.lexer.add('SEMI_COLON', r'\;')
-        self.lexer.add('ASG', r'\=')
 
         # Operators
         self.lexer.add('SUM', r'\+')
