@@ -84,10 +84,8 @@ class Parser():
         def while_loop(p):
             pass
 
-        @self.pg.production("for_loop : FLOR_LOOP OPEN_PAREN assignment SEMICOLON relExpression SEMICOLON relExpression CLOSE_PAREN block SEMI_COLON")
-        @self.pg.production("for_loop : FLOR_LOOP OPEN_PAREN declaration SEMICOLON relExpression SEMICOLON relExpression CLOSE_PAREN block SEMI_COLON")
-        @self.pg.production("for_loop : FLOR_LOOP OPEN_PAREN SEMICOLON relExpression SEMICOLON relExpression CLOSE_PAREN block SEMI_COLON")
-        @self.pg.production("for_loop : FLOR_LOOP OPEN_PAREN SEMICOLON relExpression SEMICOLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN (assignment)? SEMICOLON (relExpression)? SEMICOLON (relExpression)? CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN (declaration)? SEMICOLON (relExpression)? SEMICOLON (relExpression)? CLOSE_PAREN block SEMI_COLON")
         def for_loop(p):
             pass
 
