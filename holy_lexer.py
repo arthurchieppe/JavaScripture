@@ -43,7 +43,6 @@ class Lexer():
         self.lexer.add('ELSE', r'otherwise')
         self.lexer.add('FUNCTION_DECLARATION', r'preach')
         self.lexer.add('COMMA', r',')
-        self.lexer.add('STATEMENT_END', r';')
         self.lexer.add('RETURN', r'amen')
         self.lexer.add('AS', r'as')
 

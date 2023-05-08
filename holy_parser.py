@@ -1,5 +1,4 @@
 from rply import ParserGenerator
-from ast import Number, Sum, Sub, Print
 
 
 class Parser():
@@ -32,7 +31,6 @@ class Parser():
              'ELSE',
              'FUNCTION_DECLARATION',
              'COMMA',
-             'STATEMENT_END',
              'RETURN',
              'AS',
              'TYPE',
@@ -63,7 +61,7 @@ class Parser():
         def statement(p):
             return p
 
-        @self.pg.production("block: BLOCK_START statements BLOCK_END")
+        @self.pg.production("block : BLOCK_START statements BLOCK_END")
         def block(p):
             return p
 
@@ -84,8 +82,15 @@ class Parser():
         def while_loop(p):
             return p
 
-        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN (assignment)? SEMICOLON (relExpression)? SEMICOLON (relExpression)? CLOSE_PAREN block SEMI_COLON")
-        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN (declaration)? SEMICOLON (relExpression)? SEMICOLON (relExpression)? CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN assignment SEMI_COLON relExpression SEMI_COLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN declaration SEMI_COLON relExpression SEMI_COLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN declaration SEMI_COLON relExpression SEMI_COLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN SEMI_COLON relExpression SEMI_COLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN assignment SEMI_COLON SEMI_COLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN declaration SEMI_COLON SEMI_COLON relExpression CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN assignment SEMI_COLON relExpression SEMI_COLON CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN declaration SEMI_COLON relExpression SEMI_COLON CLOSE_PAREN block SEMI_COLON")
+        @self.pg.production("for_loop : FOR_LOOP OPEN_PAREN SEMI_COLON SEMI_COLON CLOSE_PAREN block SEMI_COLON")
         def for_loop(p):
             return p
 
@@ -113,7 +118,7 @@ class Parser():
 
         # Function call
         @self.pg.production("function_call : IDENTIFIER OPEN_PAREN CLOSE_PAREN SEMI_COLON")
-        @self.pg.production("function_call : identifier OPEN_PAREN arguments CLOSE_PAREN SEMI_COLON")
+        @self.pg.production("function_call : IDENTIFIER OPEN_PAREN arguments CLOSE_PAREN SEMI_COLON")
         def function_call(p):
             return p
 
@@ -156,7 +161,7 @@ class Parser():
         @self.pg.production("factor : NOT factor")
         @self.pg.production("factor : INT")
         @self.pg.production("factor : STRING")
-        @self.pg.production("factor : identifier")
+        @self.pg.production("factor : IDENTIFIER")
         def factor(p):
             return p
 
