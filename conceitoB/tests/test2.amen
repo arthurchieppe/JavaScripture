@@ -1,0 +1,6 @@
+baptize int as x1 giveth 0;
+baptize int as x2 giveth 10;
+proclaim(x1 + x2)
+
+
+
