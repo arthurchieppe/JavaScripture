@@ -47,7 +47,7 @@ class Tokenizer():
             return
 
         # # Remove os zeros que precedem o tokem:
-        while self.source[self.position] == " ":
+        while self.source[self.position] == " " or self.source[self.position] == "\n":
             self.position += 1
 
         # Checa por INT
@@ -132,9 +132,6 @@ class Tokenizer():
                     break
                 elif char == "=":
                     self.next = Token("ASSIGN", char)
-                    break
-                elif char == "\n":
-                    self.next = Token("EOL", char)
                     break
                 elif char == ">":
                     self.next = Token("GRT", char)

@@ -23,10 +23,19 @@ class Parser:
             res_statement = Parser.parseStatement()
             block.children.append(res_statement)
 
+    @staticmethod
+    def checkTokenType(expected_type, error_message=None):
+        if error_message is None:
+            error_message = f"Syntax error: expected {expected_type} and got {Parser.tokenizer.next.token_type}"
+        if Parser.tokenizer.next.token_type != expected_type:
+            raise Exception(error_message)
+
     @ staticmethod
     def parseStatement():
-        if Parser.tokenizer.next.token_type == "IDEN":
-            return Parser.parseAssignment()
+        if Parser.tokenizer.next.token_type == "DECLARATION":
+            return Parser.parseDeclaration()
+        elif Parser.tokenizer.next.token_type == "IDEN":
+            return Parser.parseIdentifier()
         elif Parser.tokenizer.next.token_type == "PRINTLN":
             return Parser.parsePrintln()
         elif Parser.tokenizer.next.token_type == "WHILE":
@@ -141,44 +150,43 @@ class Parser:
         # print("Block do parseWhile:" + str(block.children))
         return While(None, [expression, block])
 
-    @ staticmethod
-    def parseAssignment():
+    @staticmethod
+    def parseIdentifier():
         identifier = Identifier(Parser.tokenizer.next.value)
         Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type == "ASSIGN":
-            # # print(f"{Parser.tokenizer.next.token_type} {Parser.tokenizer.next.value}")
+        if Parser.tokenizer.next.token_type == "ASSIGNMENT":
             Parser.tokenizer.selectNext()
-            # # print(f"{Parser.tokenizer.next.token_type} {Parser.tokenizer.next.value}")
-
             expression = Parser.parseRelExpression()
             return Assignment(None, [identifier, expression])
-        elif Parser.tokenizer.next.token_type == "DEC":
+        Parser.checkTokenType("OP_PAR")
+        Parser.tokenizer.selectNext()
+        funcArguments = []
+        while Parser.tokenizer.next.token_type != "CL_PAR":
             Parser.tokenizer.selectNext()
-            if Parser.tokenizer.next.token_type != "TYPE":
+            funcArguments.append(
+                Parser.parseRelExpression(isSubExpression=True))
+            if Parser.tokenizer.next.token_type not in ["CL_PAR", "COMMA"]:
                 raise Exception(
-                    "Sintaxe nào aderente à gramática: declaracao nao possui tipo (parseAssignment)")
-            dec_type = Parser.tokenizer.next.value
-            Parser.tokenizer.selectNext()
-            if Parser.tokenizer.next.token_type == "ASSIGN":
-                Parser.tokenizer.selectNext()
-                expression = Parser.parseRelExpression()
-                return VarDec(dec_type, [identifier, expression])
+                    "Error parsing function call, expected ',' or ')'")
+        return FuncCall(identifier, funcArguments)
+
+    @ staticmethod
+    def parseDeclaration():
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("TYPE")
+        dec_type = Parser.tokenizer.next.value
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("AS")
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("IDEN")
+        identifier = Identifier(Parser.tokenizer.next.value)
+        Parser.tokenizer.selectNext()
+        if Parser.tokenizer.next.token_type == "EOL":
             return VarDec(dec_type, [identifier])
-
-        elif Parser.tokenizer.next.token_type == "OP_PAR":
-            funcArguments = []
-            while Parser.tokenizer.next.token_type != "CL_PAR":
-                Parser.tokenizer.selectNext()
-                funcArguments.append(
-                    Parser.parseRelExpression(isSubExpression=True))
-                if Parser.tokenizer.next.token_type not in ["CL_PAR", "COMMA"]:
-                    raise Exception(
-                        "Error parsing function call, expected ',' or ')'")
-            return FuncCall(identifier, funcArguments)
-
-        else:
-            raise Exception(
-                "Sintaxe nào aderente à gramática (parseAssignment)" + Parser.tokenizer.next.token_type + Parser.tokenizer.next.value)
+        Parser.checkTokenType("ASSIGNMENT")
+        Parser.tokenizer.selectNext()
+        expression = Parser.parseRelExpression()
+        return VarDec(dec_type, [identifier, expression])
 
     @ staticmethod
     def parsePrintln():
@@ -195,19 +203,6 @@ class Parser:
         return Println(None, [expression])
 
     @ staticmethod
-    def parseRead():
-        Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "OP_PAR":
-            raise Exception(
-                "Sintaxe nào aderente à gramática (parseRead)")
-        Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "CL_PAR":
-            raise Exception(
-                "Sintaxe nào aderente à gramática (parseRead)")
-        Parser.tokenizer.selectNext()
-        return Readline()
-
-    @ staticmethod
     def parseRelExpression(isSubExpression: bool = False):
         expression = Parser.parseExpression()
         while True:
@@ -218,7 +213,7 @@ class Parser:
                     raise Exception(
                         f"Sintaxe nào aderente à gramática (parseRelExpression) {Parser.tokenizer.next.token_type} {Parser.tokenizer.next.value}")
 
-            if Parser.tokenizer.next.token_type == "EOL" or Parser.tokenizer.next.token_type == "EOF":
+            if Parser.tokenizer.next.token_type == "SEMI_COLON" or Parser.tokenizer.next.token_type == "EOF":
                 return expression
 
             elif Parser.tokenizer.next.token_type == "GRT":
@@ -336,8 +331,6 @@ class Parser:
             else:
                 raise Exception(
                     "Sintaxe nào aderente à gramática (parseFactor parenteses)")
-        elif Parser.tokenizer.next.token_type == "READLINE":
-            return Parser.parseRead()
         else:
             raise Exception(
                 "Sintaxe nào aderente à gramática (parseFactor))\n Token: " + Parser.tokenizer.next.token_type + "\n  \
@@ -353,8 +346,7 @@ class Parser:
             print(Parser.tokenizer.next.token_type,
                   Parser.tokenizer.next.value)
             Parser.tokenizer.selectNext()
-        return
-        # return Parser.parseBlock()
+        return Parser.parseBlock()
 
 
 class PrePro:
