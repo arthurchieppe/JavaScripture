@@ -15,18 +15,17 @@ class Parser:
 
             if Parser.tokenizer.next.token_type == "EOF":
                 return block
-            if Parser.tokenizer.next.token_type == "EOL":
-                Parser.tokenizer.selectNext()
-                if Parser.tokenizer.next.token_type == "END" and isSubBlock:
-                    return block
-                continue
+            if Parser.tokenizer.next.token_type == "CL_BRACK" and isSubBlock:
+                return block
             res_statement = Parser.parseStatement()
+            Parser.checkTokenType("SEMICOLON")
+            Parser.tokenizer.selectNext()
             block.children.append(res_statement)
 
     @staticmethod
     def checkTokenType(expected_type, error_message=None):
         if error_message is None:
-            error_message = f"Syntax error: expected {expected_type} and got {Parser.tokenizer.next.token_type}"
+            error_message = f"Syntax error: expected {expected_type} and got {Parser.tokenizer.next.token_type} {Parser.tokenizer.next.value}"
         if Parser.tokenizer.next.token_type != expected_type:
             raise Exception(error_message)
 
@@ -36,7 +35,7 @@ class Parser:
             return Parser.parseDeclaration()
         elif Parser.tokenizer.next.token_type == "IDEN":
             return Parser.parseIdentifier()
-        elif Parser.tokenizer.next.token_type == "PRINTLN":
+        elif Parser.tokenizer.next.token_type == "PRINT":
             return Parser.parsePrintln()
         elif Parser.tokenizer.next.token_type == "WHILE":
             return Parser.parseWhile()
@@ -181,7 +180,7 @@ class Parser:
         Parser.checkTokenType("IDEN")
         identifier = Identifier(Parser.tokenizer.next.value)
         Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type == "EOL":
+        if Parser.tokenizer.next.token_type == "SEMICOLON":
             return VarDec(dec_type, [identifier])
         Parser.checkTokenType("ASSIGNMENT")
         Parser.tokenizer.selectNext()
@@ -191,14 +190,10 @@ class Parser:
     @ staticmethod
     def parsePrintln():
         Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "OP_PAR":
-            raise Exception(
-                "Sintaxe nào aderente à gramática (parsePrintln)")
+        Parser.checkTokenType("OP_PAR")
         Parser.tokenizer.selectNext()
         expression = Parser.parseRelExpression(isSubExpression=True)
-        if Parser.tokenizer.next.token_type != "CL_PAR":
-            raise Exception(
-                "Sintaxe nào aderente à gramática (parsePrintln)")
+        Parser.checkTokenType("CL_PAR")
         Parser.tokenizer.selectNext()
         return Println(None, [expression])
 
@@ -213,7 +208,7 @@ class Parser:
                     raise Exception(
                         f"Sintaxe nào aderente à gramática (parseRelExpression) {Parser.tokenizer.next.token_type} {Parser.tokenizer.next.value}")
 
-            if Parser.tokenizer.next.token_type == "SEMI_COLON" or Parser.tokenizer.next.token_type == "EOF":
+            if Parser.tokenizer.next.token_type == "SEMICOLON" or Parser.tokenizer.next.token_type == "EOF":
                 return expression
 
             elif Parser.tokenizer.next.token_type == "GRT":
@@ -342,10 +337,10 @@ class Parser:
         Parser.tokenizer = Tokenizer(code)
         Parser.tokenizer.selectNext()
         # Print all tokens
-        while Parser.tokenizer.next.token_type != "EOF":
-            print(Parser.tokenizer.next.token_type,
-                  Parser.tokenizer.next.value)
-            Parser.tokenizer.selectNext()
+        # while Parser.tokenizer.next.token_type != "EOF":
+        #     print(Parser.tokenizer.next.token_type,
+        #           Parser.tokenizer.next.value)
+        #     Parser.tokenizer.selectNext()
         return Parser.parseBlock()
 
 

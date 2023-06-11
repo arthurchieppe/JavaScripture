@@ -1,2 +1,3 @@
-baptize int as x1 giveth 0;
-x1 giveth 1;
+baptize int x1;
+x1 giveth 2;
+proclaim(x1);

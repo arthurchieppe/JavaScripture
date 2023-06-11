@@ -149,7 +149,7 @@ class Tokenizer():
                     self.next = Token("COMMA", char)
                     break
                 elif char == ";":
-                    self.next = Token("SEMI_COLON", char)
+                    self.next = Token("SEMICOLON", char)
                     break
                 else:
                     raise Exception(f"Invalid character {char}")

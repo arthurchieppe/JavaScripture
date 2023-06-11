@@ -38,7 +38,7 @@ class IntVal(Node):
         else:
             self.symbolTable = symbolTable
 
-        return ("Int", self.value)
+        return ("int", self.value)
 
 
 class StringVal(Node):
@@ -52,7 +52,7 @@ class StringVal(Node):
         else:
             self.symbolTable = symbolTable
 
-        return ("String", self.value)
+        return ("string", self.value)
 
 
 class UnOp(Node):
@@ -71,7 +71,7 @@ class UnOp(Node):
         elif self.value == "-":
             return -self.children[0].evaluate(self.symbolTable)
         elif self.value == "!":
-            return ("Int", int(not self.children[0].evaluate(self.symbolTable)))
+            return ("int", int(not self.children[0].evaluate(self.symbolTable)))
 
 
 class BinOp(Node):
@@ -90,7 +90,7 @@ class BinOp(Node):
 
         # Bin ops que podem ter filhos de tipos diferentes
         if self.value == ".":
-            return ("String", str(child0[1]) + str(child1[1]))
+            return ("string", str(child0[1]) + str(child1[1]))
         elif self.value == "==":
             return (child0[0], int(child0[1] == child1[1]))
         elif self.value == ">":
@@ -231,7 +231,7 @@ class Readline(Node):
         else:
             self.symbolTable = symbolTable
 
-        return ("Int", int(input()))
+        return ("int", int(input()))
 
 
 class VarDec(Node):
@@ -251,16 +251,17 @@ class VarDec(Node):
             expression = self.children[1].evaluate(self.symbolTable)
             if expression[0] != type:
                 raise Exception(
-                    f"Invalid variable type on declaration of {self.value} {self.children[0].value} {self.children[1].value}")
+                    f"Invalid variable type on declaration of {self.value} {self.children[0].value} {self.children[1].value} \
+                    \n Expected {type} but got {expression[0]}")
             self.symbolTable.setter(
                 self.children[0].value, expression)
             return None
 
-        if self.value == "Int":
-            self.symbolTable.setter(self.children[0].value, ("Int", 0))
+        if self.value == "int":
+            self.symbolTable.setter(self.children[0].value, ("int", 0))
 
-        elif self.value == "String":
-            self.symbolTable.setter(self.children[0].value, ("String", ""))
+        elif self.value == "string":
+            self.symbolTable.setter(self.children[0].value, ("string", ""))
         else:
             raise Exception("Invalid variable type")
 
