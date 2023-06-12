@@ -112,25 +112,25 @@ class Parser:
     @ staticmethod
     def parseIf():
         Parser.tokenizer.selectNext()
-        expression = Parser.parseRelExpression()
-        if Parser.tokenizer.next.token_type != "EOL":
-            raise Exception("Sintaxe nào aderente à gramática (parseIf)")
+        Parser.checkTokenType("OP_PAR")
+        Parser.tokenizer.selectNext()
+        expression = Parser.parseRelExpression(isSubExpression=True)
+        Parser.checkTokenType("CL_PAR")
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("OP_BRACK")
         Parser.tokenizer.selectNext()
         if_block = Parser.parseBlock(isSubBlock=True)
-        if Parser.tokenizer.next.token_type == "END":
+        Parser.checkTokenType("CL_BRACK")
+        Parser.tokenizer.selectNext()
+        if Parser.tokenizer.next.token_type == "ELSE":
             Parser.tokenizer.selectNext()
-            return If(None, [expression, if_block])
-        elif Parser.tokenizer.next.token_type == "ELSE":
-            Parser.tokenizer.selectNext()
-            if Parser.tokenizer.next.token_type != "EOL":
-                raise Exception("Sintaxe nào aderente à gramática (parseIf)")
+            Parser.checkTokenType("OP_BRACK")
             Parser.tokenizer.selectNext()
             else_block = Parser.parseBlock(isSubBlock=True)
-            if Parser.tokenizer.next.token_type != "END":
-                raise Exception("Sintaxe nào aderente à gramática (parseIf)")
-
+            Parser.checkTokenType("CL_BRACK")
             Parser.tokenizer.selectNext()
             return If(None, [expression, if_block, else_block])
+        return If(None, [expression, if_block])
 
     @ staticmethod
     def parseWhile():
@@ -208,7 +208,7 @@ class Parser:
                     raise Exception(
                         f"Sintaxe nào aderente à gramática (parseRelExpression) {Parser.tokenizer.next.token_type} {Parser.tokenizer.next.value}")
 
-            if Parser.tokenizer.next.token_type == "SEMICOLON" or Parser.tokenizer.next.token_type == "EOF":
+            elif Parser.tokenizer.next.token_type == "SEMICOLON" or Parser.tokenizer.next.token_type == "EOF":
                 return expression
 
             elif Parser.tokenizer.next.token_type == "GRT":

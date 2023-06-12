@@ -67,11 +67,11 @@ class UnOp(Node):
             self.symbolTable = symbolTable
 
         if self.value == "+":
-            return self.children[0].evaluate(self.symbolTable)
+            return ("int", self.children[0].evaluate(self.symbolTable)[1])
         elif self.value == "-":
-            return -self.children[0].evaluate(self.symbolTable)
+            return ("int", self.children[0].evaluate(self.symbolTable)[1])
         elif self.value == "!":
-            return ("int", int(not self.children[0].evaluate(self.symbolTable)))
+            return ("int", int(not self.children[0].evaluate(self.symbolTable)[1]))
 
 
 class BinOp(Node):
@@ -211,10 +211,10 @@ class If(Node):
             self.symbolTable = symbolTable
 
         if len(self.children) == 2:
-            if self.children[0].evaluate(self.symbolTable):
+            if self.children[0].evaluate(self.symbolTable)[1]:
                 self.children[1].evaluate(self.symbolTable)
         else:
-            if self.children[0].evaluate(self.symbolTable):
+            if self.children[0].evaluate(self.symbolTable)[1]:
                 self.children[1].evaluate(self.symbolTable)
             else:
                 self.children[2].evaluate(self.symbolTable)
