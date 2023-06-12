@@ -41,7 +41,7 @@ class Parser:
             return Parser.parseWhile()
         elif Parser.tokenizer.next.token_type == "IF":
             return Parser.parseIf()
-        elif Parser.tokenizer.next.token_type == "FUNCTION":
+        elif Parser.tokenizer.next.token_type == "FUNCTION_DECLARATION":
             return Parser.parseFuncDec()
         elif Parser.tokenizer.next.token_type == "RETURN":
             return Parser.parseReturn()
@@ -59,6 +59,41 @@ class Parser:
     @ staticmethod
     def parseFuncDec():
         Parser.tokenizer.selectNext()
+        Parser.checkTokenType("TYPE")
+        funcReturnType = Parser.tokenizer.next.value
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("AS")
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("IDEN")
+        name = Parser.tokenizer.next.value
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("OP_PAR")
+        Parser.tokenizer.selectNext()
+        varDecs = []
+        # Parse parameters
+        while Parser.tokenizer.next.token_type != "CL_PAR":
+            Parser.checkTokenType("TYPE")
+            varType = Parser.tokenizer.next.value
+            Parser.tokenizer.selectNext()
+            Parser.checkTokenType("AS")
+            Parser.tokenizer.selectNext()
+            Parser.checkTokenType("IDEN")
+            identifier = Identifier(Parser.tokenizer.next.value)
+            Parser.tokenizer.selectNext()
+            varDecs.append(VarDec(varType, [identifier]))
+            if Parser.tokenizer.next.token_type == "CL_PAR":
+                break
+            Parser.checkTokenType("COMMA")
+            Parser.tokenizer.selectNext()
+        Parser.checkTokenType("CL_PAR")
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("OP_BRACK")
+        Parser.tokenizer.selectNext()
+        block = Parser.parseBlock(isSubBlock=True)
+        Parser.checkTokenType("CL_BRACK")
+        Parser.tokenizer.selectNext()
+        return FuncDec(funcReturnType, [Identifier(name)] + varDecs + [block])
+
         if Parser.tokenizer.next.token_type != "IDEN":
             raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
         name = Parser.tokenizer.next.value
@@ -150,6 +185,7 @@ class Parser:
     @staticmethod
     def parseIdentifier():
         identifier = Identifier(Parser.tokenizer.next.value)
+
         Parser.tokenizer.selectNext()
         if Parser.tokenizer.next.token_type == "ASSIGNMENT":
             Parser.tokenizer.selectNext()

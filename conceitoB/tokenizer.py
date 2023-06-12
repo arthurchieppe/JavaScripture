@@ -130,9 +130,9 @@ class Tokenizer():
                 elif char == "}":
                     self.next = Token("CL_BRACK", char)
                     break
-                elif char == "=":
-                    self.next = Token("ASSIGN", char)
-                    break
+                # elif char == "=":
+                #     self.next = Token("ASSIGN", char)
+                #     break
                 elif char == ">":
                     self.next = Token("GRT", char)
                     break
