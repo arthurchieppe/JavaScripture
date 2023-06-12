@@ -37,7 +37,7 @@ class Parser:
             return Parser.parseIdentifier()
         elif Parser.tokenizer.next.token_type == "PRINT":
             return Parser.parsePrintln()
-        elif Parser.tokenizer.next.token_type == "WHILE":
+        elif Parser.tokenizer.next.token_type == "WHILE_LOOP":
             return Parser.parseWhile()
         elif Parser.tokenizer.next.token_type == "IF":
             return Parser.parseIf()
@@ -138,15 +138,13 @@ class Parser:
         Parser.checkTokenType("OP_PAR")
         Parser.tokenizer.selectNext()
         expression = Parser.parseRelExpression(isSubExpression=True)
-
-        if Parser.tokenizer.next.token_type != "EOL":
-            raise Exception("Sintaxe nào aderente à gramática (parseWhile)")
+        Parser.checkTokenType("CL_PAR")
+        Parser.tokenizer.selectNext()
+        Parser.checkTokenType("OP_BRACK")
         Parser.tokenizer.selectNext()
         block = Parser.parseBlock(isSubBlock=True)
-        if Parser.tokenizer.next.token_type != "END":
-            raise Exception("Sintaxe nào aderente à gramática (parseWhile)")
+        Parser.checkTokenType("CL_BRACK")
         Parser.tokenizer.selectNext()
-        # print("Block do parseWhile:" + str(block.children))
         return While(None, [expression, block])
 
     @staticmethod

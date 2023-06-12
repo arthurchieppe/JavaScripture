@@ -1,8 +1,16 @@
-baptize int as x1 giveth -1;
+baptize int as x1 giveth -4;
+baptize int as x2 giveth -1;
 proclaim(x1);
 testify(x1 < 0) {
     proclaim(0);
 }
 otherwise {
+    testify (x2 == 0) {
+        proclaim(0);
+    };
     proclaim(1);
+};
+prayAsLongAs (x1 < 0) {
+    x1 giveth x1 + 1;
+    proclaim(x1);   
 };
