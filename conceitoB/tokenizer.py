@@ -103,6 +103,15 @@ class Tokenizer():
         elif self.source[self.position] == "&" and self.source[self.position + 1] == "&":
             self.next = Token("AND", "&&")
             self.position += 2
+        # Check for <=:
+        elif self.source[self.position] == "<" and self.source[self.position + 1] == "=":
+            self.next = Token("LTE", "<=")
+            self.position += 2
+
+        # Check for >=:
+        elif self.source[self.position] == ">" and self.source[self.position + 1] == "=":
+            self.next = Token("GTE", ">=")
+            self.position += 2
 
         else:
             for index, char in enumerate(self.source[self.position:]):

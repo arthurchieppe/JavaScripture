@@ -249,9 +249,19 @@ class Parser:
                 Parser.tokenizer.selectNext()
                 expression = BinOp(">", [expression, Parser.parseExpression()])
 
+            elif Parser.tokenizer.next.token_type == "GTE":
+                Parser.tokenizer.selectNext()
+                expression = BinOp(
+                    ">=", [expression, Parser.parseExpression()])
+
             elif Parser.tokenizer.next.token_type == "LST":
                 Parser.tokenizer.selectNext()
                 expression = BinOp("<", [expression, Parser.parseExpression()])
+
+            elif Parser.tokenizer.next.token_type == "LTE":
+                Parser.tokenizer.selectNext()
+                expression = BinOp(
+                    "<=", [expression, Parser.parseExpression()])
 
             elif Parser.tokenizer.next.token_type == "EQ":
                 Parser.tokenizer.selectNext()

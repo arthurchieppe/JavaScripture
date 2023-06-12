@@ -1,0 +1,9 @@
+baptize string as sufixo giveth ", amen!";
+baptize string as prefixo giveth "There shall be no DP";
+baptize string as frase giveth prefixo.sufixo;
+baptize int as i;
+i giveth 0;
+prayAsLongAs((i <= 10)) {
+    proclaim(i.": ".frase);
+    i giveth i + 1;
+};

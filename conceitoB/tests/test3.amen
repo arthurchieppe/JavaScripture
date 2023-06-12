@@ -1,7 +1,0 @@
-preach int as somaUm(int as x1) {
-    x1 giveth x1 + 1;
-    amen x1;
-};
-
-baptize string as x0 giveth "edir";
-proclaim(x0);

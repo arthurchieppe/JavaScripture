@@ -95,8 +95,12 @@ class BinOp(Node):
             return (child0[0], int(child0[1] == child1[1]))
         elif self.value == ">":
             return (child0[0], int(child0[1] > child1[1]))
+        elif self.value == ">=":
+            return (child0[0], int(child0[1] >= child1[1]))
         elif self.value == "<":
             return (child0[0], int(child0[1] < child1[1]))
+        elif self.value == "<=":
+            return (child0[0], int(child0[1] <= child1[1]))
         elif self.value == "&&":
             return (child0[0], int(child0[1] and child1[1]))
         elif self.value == "||":
@@ -220,18 +224,18 @@ class If(Node):
                 self.children[2].evaluate(self.symbolTable)
 
 
-class Readline(Node):
-    def __init__(self, value: str = None, children: List[Node] = []):
-        self.value = value
-        self.children = children
+# class Readline(Node):
+#     def __init__(self, value: str = None, children: List[Node] = []):
+#         self.value = value
+#         self.children = children
 
-    def evaluate(self, symbolTable=None):
-        if symbolTable is None:
-            self.symbolTable = SymbolTable()
-        else:
-            self.symbolTable = symbolTable
+#     def evaluate(self, symbolTable=None):
+#         if symbolTable is None:
+#             self.symbolTable = SymbolTable()
+#         else:
+#             self.symbolTable = symbolTable
 
-        return ("int", int(input()))
+#         return ("int", int(input()))
 
 
 class VarDec(Node):
