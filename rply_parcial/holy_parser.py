@@ -1,4 +1,5 @@
 from rply import ParserGenerator
+from AST import *
 
 
 class Parser():
@@ -42,6 +43,7 @@ class Parser():
     def parse(self):
         @self.pg.production("program : statements")
         def program(p):
+            print("Edir")
             return p
 
         @self.pg.production('statements : statements statement')

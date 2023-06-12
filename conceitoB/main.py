@@ -1,6 +1,7 @@
 import sys
 from classes import Parser
 
+
 def print_ast(node, level=0, max_depth=8):
     if level >= max_depth:
         return
@@ -22,6 +23,8 @@ def main(expression: str, debug=False):
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
         sys.exit()
+    if sys.argv[1].split(".")[-1] != "amen":
+        raise Exception("Arquivo de input deve ser .amen")
     try:
         with open(sys.argv[1], "r") as f:
             file = f.read()

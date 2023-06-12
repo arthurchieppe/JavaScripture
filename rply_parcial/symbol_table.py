@@ -25,7 +25,7 @@ class LocalSymbolTable():
 
     def getter(self, key):
         if key not in self.table:
-            raise Exception(f"Variable not declared {key}")
+            raise Exception("Variable not declared")
         return self.table[key]
 
     def setter(self, key, value):

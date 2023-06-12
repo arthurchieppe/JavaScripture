@@ -1,17 +1,16 @@
 (* Program *)
 <program> ::= { <statement> }
 <block> ::= "{" { <statement> } "}"
-<statement> ::= λ | <declaration> | <assignment> | <print> | <if_statement> | <while_loop> | <for_loop> | <function_declaration> | <function_call> | <return>
+<statement> ::= λ | <declaration> | <assignment> | <print> | <if_statement> | <while_loop> | <function_declaration> | <function_call> | <return> ";"
 
 (* Variable management *):
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
-<declaration> ::= "baptize" <type> "as" <identifier> ;
-<assignment> ::= (<declaration> | <identifier>) "giveth" <relExpression> ;
-<print> ::= "proclaim" "(" <relExpression> ")" ;
+<declaration> ::= "baptize" <type> "as" <identifier> 
+<assignment> ::= (<declaration> | <identifier>) "giveth" <relExpression> 
+<print> ::= "proclaim" "(" <relExpression> ")" 
 
 (* Loops *)
-<while_loop> ::= "prayAsLongAs" "(" <relExpression> ")"  <block> ;
-<for_loop> ::= "blessFor" "(" <assignment> ";" <relExpression> ";" <relExpression> ")" <block> ;
+<while_loop> ::= "prayAsLongAs" "(" <relExpression> ")"  <block> 
 
 (* If *)
 <if_statement> ::= "testify" "(" <relExpression> ")" <block> [ "otherwise" < block> ]
@@ -20,15 +19,15 @@
 <function_declaration> ::= "preach" <type> "as" <identifier> "(" [ <parameters> ] ")" <block>
 <parameters> ::= <parameter> { "," <parameter> }
 <parameter> ::= <type> "as" <identifier>
-<function_call> ::= <identifier> "(" [ <arguments> ] ")" ;
+<function_call> ::= <identifier> "(" [ <arguments> ] ")" 
 <arguments> ::= <relExpression> { "," <relExpression> }
 <return> ::= "amen" <expression> ";"
 
 # Expressions:
-<relExpression> = <expression>, { ("==" | ">" | "<" | ">=" | "<="), <expression> } ;
-<expression> = <term>, { ("+" | "-" | "||"), <term> } ;
-<term> = <factor>, { ("*" | "/" | "&&"), <factor> } ;
-<factor> = (("+" | "-" | "!"), <factor>) | <int> | "(", <relExpression>, ")" | <identifier> ;
+<relExpression> = <expression>, { ("==" | ">" | "<" | ">=" | "<="), <expression> } 
+<expression> = <term>, { ("+" | "-" | "||"), <term> } 
+<term> = <factor>, { ("*" | "/" | "&&"), <factor> } 
+<factor> = (("+" | "-" | "!"), <factor>) | <int> | "(", <relExpression>, ")" | <identifier> 
 
 
 # Types:
@@ -36,6 +35,6 @@
 <int> ::= <digit>, {<digit>}
 <string> ::= '"' { <any_character> } '"'
 <any_character> ::= <letter> | <digit> | <symbol>
-<letter> ::= ("A" | "B" | ... | "Z" | "a" | "b" | ... | "z") ;
-<digit> ::= ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
+<letter> ::= ("A" | "B" | ... | "Z" | "a" | "b" | ... | "z") 
+<digit> ::= ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) 
 <symbol> ::= "+" | "-" | "*" | "/" | "%" | "(" | ")" | "{" | "}" | "[" | "]" | "," | "." | ";" | ":" | "!" | "?" | "="

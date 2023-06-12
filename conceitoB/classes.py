@@ -94,56 +94,6 @@ class Parser:
         Parser.tokenizer.selectNext()
         return FuncDec(funcReturnType, [Identifier(name)] + varDecs + [block])
 
-        if Parser.tokenizer.next.token_type != "IDEN":
-            raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
-        name = Parser.tokenizer.next.value
-        Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "OP_PAR":
-            raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
-        varDecs = []
-        # Parse parameters
-        Parser.tokenizer.selectNext()
-        while Parser.tokenizer.next.token_type != "CL_PAR":
-            if Parser.tokenizer.next.token_type != "IDEN":
-                raise Exception(
-                    "Sintaxe nào aderente à gramática (parseFuncDec)")
-            identifier = Identifier(Parser.tokenizer.next.value)
-            Parser.tokenizer.selectNext()
-            if Parser.tokenizer.next.token_type != "DEC":
-                raise Exception(
-                    "Sintaxe nào aderente à gramática (parseFuncDec)")
-            Parser.tokenizer.selectNext()
-            if Parser.tokenizer.next.token_type != "TYPE":
-                raise Exception(
-                    "Sintaxe nào aderente à gramática (parseFuncDec)")
-            varDecs.append(VarDec(Parser.tokenizer.next.value, [identifier]))
-            Parser.tokenizer.selectNext()
-            if Parser.tokenizer.next.token_type == "CL_PAR":
-                break
-            if Parser.tokenizer.next.token_type != "COMMA":
-                raise Exception(
-                    "Sintaxe nào aderente à gramática (parseFuncDec)")
-            Parser.tokenizer.selectNext()
-
-        # Parse function return type
-        Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "DEC":
-            raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
-        Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "TYPE":
-            raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
-        funcReturnType = Parser.tokenizer.next.value
-        Parser.tokenizer.selectNext()
-        if Parser.tokenizer.next.token_type != "EOL":
-            raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
-
-        block = Parser.parseBlock(isSubBlock=True)
-        if Parser.tokenizer.next.token_type != "END":
-            raise Exception("Sintaxe nào aderente à gramática (parseFuncDec)")
-        Parser.tokenizer.selectNext()
-
-        return FuncDec(funcReturnType, [Identifier(name)] + varDecs + [block])
-
     @ staticmethod
     def parseIf():
         Parser.tokenizer.selectNext()
@@ -201,6 +151,8 @@ class Parser:
             if Parser.tokenizer.next.token_type not in ["CL_PAR", "COMMA"]:
                 raise Exception(
                     "Error parsing function call, expected ',' or ')'")
+        Parser.checkTokenType("CL_PAR")
+        Parser.tokenizer.selectNext()
         return FuncCall(identifier, funcArguments)
 
     @ staticmethod

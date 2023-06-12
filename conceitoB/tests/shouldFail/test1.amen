@@ -1,0 +1,9 @@
+baptize int as x1 giveth 0;
+proclaim(x1);
+prayAsLongAs(x1 < 5) {
+    x1 giveth x1 + 1;
+}
+proclaim(x1);
+testify(x1 < 0) {
+    proclaim(0);
+};

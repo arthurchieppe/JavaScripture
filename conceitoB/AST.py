@@ -294,8 +294,9 @@ class FuncCall(Node):
 
     def evaluate(self, symbolTable=None):
         self.localSymbolTable = LocalSymbolTable()
-        self.globalSymbolTable = SymbolTable()
-        funcDec = self.globalSymbolTable.getter(self.value)[1]
+        self.globalSymbolTable = symbolTable
+
+        funcDec = SymbolTable().getter(self.value)[1]
         # Check if the number of arguments passed is greater than the number of arguments declared
         if len(self.children) > len(funcDec.children) - 2:
             raise Exception("Too many arguments passed")
@@ -314,6 +315,8 @@ class FuncCall(Node):
             # Save the argument passed with the indeitifier
             self.localSymbolTable.setter(
                 iden, self.children[i].evaluate(self.globalSymbolTable))
+            # print(
+            # f"Setting {iden} to {self.children[i].evaluate(self.globalSymbolTable)}")
         # print("Local Symbol Table")
         # print(self.localSymbolTable.table)
         # Evaluate block

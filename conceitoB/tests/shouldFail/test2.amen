@@ -1,0 +1,8 @@
+baptize int as x1 giveth - 1;
+testify(x1 < 0) {
+    proclaim(0);
+}
+otherwise
+    proclaim(1);
+}
+;

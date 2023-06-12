@@ -5,9 +5,10 @@ A holy programming language from scratch.
 
 O EBNF da linguagem pode ser encontrado no arquivo: EBNF_JavaScripture.txt
 
-## Como executar o programa
+## Entrega
 
-O main.py busca por um arquivo chamado "test.amen", que contém o código a ser executado. Para executar o programa, basta executar o main.py.
+A entrega final está localizada na pasta conceitoB, almejando-se conquistar o conceito B.
+A apresentação e o EBNF se encontram na raiz do repositório.
 
 ## Exemplo de programa:
     

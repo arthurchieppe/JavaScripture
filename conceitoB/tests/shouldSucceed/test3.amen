@@ -1,6 +1,6 @@
-preach int as somaUm(int as x1) {
-    x1 giveth x1 + 1;
-    amen x1;
+preach int as somaUm(int as f_x1) {
+    f_x1 giveth f_x1 + 1;
+    amen f_x1;
 };
 
 baptize int as x0 giveth 0;

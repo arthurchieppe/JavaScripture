@@ -1,0 +1,6 @@
+baptize string as s1;
+s1 giveth 0;
+baptize string as s2 giveth " world!";
+proclaim(s1.s2);
+baptize int as x1 giveth 0;
+proclaim(x1.s2);
