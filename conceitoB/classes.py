@@ -135,9 +135,9 @@ class Parser:
     @ staticmethod
     def parseWhile():
         Parser.tokenizer.selectNext()
-        # print("Cheguei")
-        expression = Parser.parseRelExpression()
-        # print("Cheguei 2")
+        Parser.checkTokenType("OP_PAR")
+        Parser.tokenizer.selectNext()
+        expression = Parser.parseRelExpression(isSubExpression=True)
 
         if Parser.tokenizer.next.token_type != "EOL":
             raise Exception("Sintaxe nào aderente à gramática (parseWhile)")

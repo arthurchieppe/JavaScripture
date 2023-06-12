@@ -1,3 +1,8 @@
-baptize int x1;
-x1 giveth 2;
+baptize int as x1 giveth -1;
 proclaim(x1);
+testify(x1 < 0) {
+    proclaim(0);
+}
+otherwise {
+    proclaim(1);
+};

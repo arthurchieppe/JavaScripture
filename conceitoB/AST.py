@@ -69,7 +69,7 @@ class UnOp(Node):
         if self.value == "+":
             return ("int", self.children[0].evaluate(self.symbolTable)[1])
         elif self.value == "-":
-            return ("int", self.children[0].evaluate(self.symbolTable)[1])
+            return ("int", -self.children[0].evaluate(self.symbolTable)[1])
         elif self.value == "!":
             return ("int", int(not self.children[0].evaluate(self.symbolTable)[1]))
 
