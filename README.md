@@ -5,9 +5,9 @@ A holy programming language from scratch.
 
 O EBNF da linguagem pode ser encontrado no arquivo: EBNF_JavaScripture.txt
 
-## Entrega
+## Entrega Final para conceito B
 
-A entrega final está localizada na pasta conceitoB, almejando-se conquistar o conceito B.
+A entrega final está localizada na pasta conceitoB.
 A apresentação e o EBNF se encontram na raiz do repositório.
 
 ## Exemplo de programa:
